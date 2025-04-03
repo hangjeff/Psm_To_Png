@@ -77,7 +77,7 @@ void process(){
 					
 					
 					char *temp = entry -> d_name;
-					char *namePart[1024];
+					char namePart[1024] = "";
 					strncpy(namePart, temp, strlen(temp) - 4);
 					snprintf(outputName, sizeof(outputName), "%s/%s.png", path
 						, namePart );
