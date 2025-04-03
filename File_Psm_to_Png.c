@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 #include <dirent.h>
 #include <stdbool.h>
 char path[1024];
@@ -18,7 +19,7 @@ void File_Convert(char *inputName, char *outputName){
 	
 	FILE *inputFile = fopen(inputName, "rb");
 	if(!inputFile){
-		perror("Faild to open input file\n");
+		perror(" Faild to open input file\n");
 		flag = false;
 		End_Message();
 		return;
@@ -26,7 +27,7 @@ void File_Convert(char *inputName, char *outputName){
 	
 	FILE *outputFile = fopen(outputName, "wb");
 	if(!outputFile){
-		perror("Faild to open input file\n");
+		perror(" Faild to open input file\n");
 		flag = false;
 		End_Message();
 		return;
@@ -70,8 +71,8 @@ void process(){
 				{
 					printf("Get File: %s", entry -> d_name);
 					// Constract paths of input file and output file
-					char inputName[1024];
-					char outputName[1024];
+					char inputName[1024] = "";
+					char outputName[1024] = "";
 					snprintf(inputName, sizeof(inputName), "%s/%s", path, entry -> d_name);
 					
 					
@@ -92,6 +93,14 @@ void process(){
 int main(){
 	flag = true;
 	printf("Enter directory path: ");
+	
+	char exePath[1024] = "";
+    GetModuleFileName(NULL, exePath, 1024);
+	char *lastSlash = strrchr(exePath, '\\');
+	if (lastSlash) {
+		*lastSlash = '\0';
+		_chdir(exePath);
+	}
 	if(scanf("%1023s", path) != 1){
 		fprintf(stderr, "Error reading the directory path.\n");
 		flag = false;
